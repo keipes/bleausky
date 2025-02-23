@@ -22,6 +22,7 @@ func TestPostFilter(t *testing.T) {
 		{"Contains @mention", args{"Hello @world."}, false},
 		{"Multiple repeated ?", args{"Hello??."}, false},
 		{"Multiple repeated !", args{"Hello!!."}, false},
+		{"NO YELLING", args{"HELLO."}, false},
 		// Success cases
 		{"Starts with capital letter and ends with period", args{"Hello."}, true},
 		{"Ends with question mark", args{"Hello?"}, true},

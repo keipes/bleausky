@@ -16,10 +16,17 @@ func PostFilter(text string) bool {
 		return false
 	}
 	// Check if all runes in the string are in ASCII printable range
+	hasLower := false
 	for _, r := range text {
 		if r > 0x7E || r < 0x20 {
 			return false
 		}
+		if unicode.IsLower(r) {
+			hasLower = true
+		}
+	}
+	if !hasLower {
+		return false
 	}
 	// Check if the string contains any barred substrings
 	barredSubstrings := []string{"www.", ".com", "...", "??", "!!"}

@@ -13,6 +13,8 @@ import (
 	"github.com/bluesky-social/indigo/events/schedulers/sequential"
 	"github.com/bluesky-social/indigo/repo"
 	"github.com/gorilla/websocket"
+	"regexp"
+
 	//"regexp"
 	"slices"
 
@@ -88,8 +90,9 @@ func HydrateDBFromFirehose() {
 								if slices.Contains(recV.Langs, "en") {
 									txt := recV.Text
 									// replace all newlines with space in txt
-									txt = strings.ReplaceAll(txt, "\n", " ")
-
+									//txt = strings.ReplaceAll(txt, "\n", " ")
+									spaceRe := regexp.MustCompile(`\s+`)
+									txt = strings.TrimSpace(spaceRe.ReplaceAllString(txt, " "))
 									if rules.PostFilter(txt) {
 										fmt.Println(txt)
 									} else {
