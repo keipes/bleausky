@@ -15,6 +15,13 @@ func TestPostFilter(t *testing.T) {
 		{"Empty String", args{""}, false},
 		{"Starts with lowercase", args{"hello"}, false},
 		{"Contains emoji", args{"Hello 😀."}, false},
+		{"Contains url", args{"Hello http://example.com."}, false},
+		{"Contains url", args{"Hello www.example."}, false},
+		{"Ends with ellipsis", args{"Hello..."}, false},
+		{"Contains hashtag", args{"Hello #world."}, false},
+		{"Contains @mention", args{"Hello @world."}, false},
+		{"Multiple repeated ?", args{"Hello??."}, false},
+		{"Multiple repeated !", args{"Hello!!."}, false},
 		// Success cases
 		{"Starts with capital letter and ends with period", args{"Hello."}, true},
 		{"Ends with question mark", args{"Hello?"}, true},

@@ -1,6 +1,7 @@
 package rules
 
 import (
+	"regexp"
 	"strings"
 	"unicode"
 )
@@ -19,6 +20,23 @@ func PostFilter(text string) bool {
 		if r > 0x7E || r < 0x20 {
 			return false
 		}
+	}
+	// Check if the string contains any barred substrings
+	barredSubstrings := []string{"www.", ".com", "...", "??", "!!"}
+	for _, substr := range barredSubstrings {
+		if strings.Contains(text, substr) {
+			return false
+		}
+	}
+	// Check if the string contains hashtags
+	hashtagRe := regexp.MustCompile(`#\w+`)
+	if hashtagRe.MatchString(text) {
+		return false
+	}
+	// Check if the string contains @mentions
+	mentionRe := regexp.MustCompile(`@\w+`)
+	if mentionRe.MatchString(text) {
+		return false
 	}
 	return true
 }
